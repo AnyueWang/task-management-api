@@ -11,6 +11,6 @@ export const taskTypeDefs = gql`
   }
 
   type Query {
-    getTasks: [Tasks!]!
+    getAllTasks: [Task!]!
   }
 `;
