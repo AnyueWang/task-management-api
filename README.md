@@ -10,6 +10,8 @@ This project is a task management backend application built using Express.js, Gr
 
 ## Installation
 
+create new database named "taskdb" in your local db server.
+
 ```env
 # Backend server settings
 PORT=4000
@@ -19,6 +21,7 @@ DB_HOST=localhost
 DB_PORT=5433
 DB_USER=USER_NAME
 DB_PASSWORD=USER_PASSWORD
+DB_NAME=taskdb
 ```
 
 ## Running the Application
