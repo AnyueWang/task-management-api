@@ -5,7 +5,10 @@
   "main": "index.ts",
   "scripts": {
     "dev": "nodemon -r ts-node src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "drizzle:generate": "npx drizzle-kit generate",
+    "drizzle:migrate": "npx drizzle-kit migrate",
+    "drizzle:seeds": "ts-node src/db/seeds/tasksSeeder.ts"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +30,8 @@
   "devDependencies": {
     "@types/pg": "^8.11.10",
     "drizzle-kit": "^0.30.1",
+    "drizzle-seed": "^0.3.0",
+    "faker": "^6.6.6",
     "nodemon": "^3.1.9",
     "tsx": "^4.19.2"
   }
