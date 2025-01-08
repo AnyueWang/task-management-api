@@ -1,6 +1,6 @@
 import {
   pgTable,
-  uuid,
+  serial,
   varchar,
   text,
   pgEnum,
@@ -10,7 +10,7 @@ import {
 export const TaskStatusEnum = pgEnum("status", ["pending", "completed"]); // enum for different status
 
 export const tasks = pgTable("tasks", {
-  id: uuid("id").primaryKey().notNull(),
+  id: serial("id").primaryKey().notNull(),
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
   status: TaskStatusEnum().default("pending"), // pgEnum().notNull() is not supported so we use this way
