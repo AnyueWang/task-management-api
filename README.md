@@ -11,7 +11,14 @@ This project is a task management backend application built using Express.js, Gr
 ## Installation
 
 ```env
+# Backend server settings
 PORT=4000
+
+# Database settings
+DB_HOST=localhost
+DB_PORT=5433
+DB_USER=USER_NAME
+DB_PASSWORD=USER_PASSWORD
 ```
 
 ## Running the Application
