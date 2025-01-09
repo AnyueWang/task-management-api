@@ -5,5 +5,8 @@ export const taskResolvers = {
     getAllTasks: async () => {
       return await taskModel.getAllTasks();
     },
+    getTask: async (_: any, { taskId }: { taskId: number }) => {
+      return await taskModel.getTask(taskId);
+    },
   },
 };

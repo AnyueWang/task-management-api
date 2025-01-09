@@ -12,5 +12,6 @@ export const taskTypeDefs = gql`
 
   type Query {
     getAllTasks: [Task!]!
+    getTask(taskId: Int!): Task
   }
 `;
