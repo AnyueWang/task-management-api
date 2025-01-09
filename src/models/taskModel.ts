@@ -28,7 +28,6 @@ export const taskModel = {
   // create a new task
   async createTask(title: string, description: string, status: TaskStatusEnum) {
     try {
-      console.log(db);
       const result = await db
         .insert(tasks)
         .values({
@@ -36,6 +35,30 @@ export const taskModel = {
           description: description,
           status: status,
         })
+        .returning();
+      return result[0]; // as result is an array, we return the element here
+    } catch (error) {
+      console.error("Error creating new task: ", error);
+      throw new Error(`Failed to create new task`);
+    }
+  },
+
+  // update an existing task
+  async updateTask(
+    taskId: number,
+    title?: string,
+    description?: string,
+    status?: TaskStatusEnum
+  ) {
+    try {
+      const result = await db
+        .update(tasks)
+        .set({
+          ...(title && { title: title }), // if title is undefined, no need to change, otherwise providing key-value
+          ...(description && { description: description }),
+          ...(status && { status: status }),
+        })
+        .where(eq(tasks.id, taskId))
         .returning();
       return result[0]; // as result is an array, we return the element here
     } catch (error) {

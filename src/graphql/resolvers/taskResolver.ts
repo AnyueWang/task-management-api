@@ -21,5 +21,21 @@ export const taskResolvers = {
     ) => {
       return await taskModel.createTask(title, description, status);
     },
+    updateTask: async (
+      _: any,
+      {
+        taskId,
+        title,
+        description,
+        status,
+      }: {
+        taskId: number;
+        title?: string;
+        description?: string;
+        status: TaskStatusEnum;
+      }
+    ) => {
+      return await taskModel.updateTask(taskId, title, description, status);
+    },
   },
 };

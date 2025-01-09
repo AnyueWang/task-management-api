@@ -1,6 +1,11 @@
 import { gql } from "apollo-server-express";
 
 export const taskTypeDefs = gql`
+  enum TaskStatus {
+    pending
+    completed
+  }
+
   type Task {
     id: ID!
     title: String!
@@ -16,6 +21,12 @@ export const taskTypeDefs = gql`
   }
 
   type Mutation {
-    createTask(title: String!, description: String, status: String!): Task!
+    createTask(title: String!, description: String, status: TaskStatus!): Task!
+    updateTask(
+      taskId: Int!
+      title: String
+      description: String
+      status: TaskStatus
+    ): Task!
   }
 `;
