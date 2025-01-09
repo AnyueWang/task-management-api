@@ -12,6 +12,7 @@ if (!SECRET_KEY) {
 
 export const userResolvers = {
   Mutation: {
+    // user registration
     register: async (
       _: any,
       {
@@ -38,6 +39,7 @@ export const userResolvers = {
       return await userModel.register(name, email, hashedPassword);
     },
 
+    // user login
     login: async (
       _: any,
       { email, password }: { email: string; password: string }
@@ -52,7 +54,7 @@ export const userResolvers = {
         }
 
         //generate JWT token
-        const token = jwt.sign({ email: user.email }, SECRET_KEY, {
+        const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, {
           expiresIn: "1h",
         });
 
