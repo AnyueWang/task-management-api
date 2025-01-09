@@ -4,6 +4,7 @@ node_modules/
 .DS_Store
 
 .env
+.env.test
 
 # Meta data related to migration process and will be different on various machines
 src/db/migrations/meta/
