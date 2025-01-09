@@ -18,7 +18,7 @@ export const authContext = ({ req }: { req: Request }): LoggedUserType => {
   const token = req.headers["authorization"]?.split(" ")[1]; // extract token from "Bearer xxxx"
 
   if (!token) {
-    throw new AuthenticationError("Authorization token is required!");
+    return { user: null };
   }
 
   try {

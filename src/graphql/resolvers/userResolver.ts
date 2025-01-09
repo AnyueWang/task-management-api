@@ -1,6 +1,7 @@
 import { userModel } from "../../models/userModel";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { registerValidators } from "../validators/userValidators";
 
 // secret key for JWT token
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
@@ -27,10 +28,8 @@ export const userResolvers = {
         password_confirmation: string;
       }
     ) => {
-      // throw error if password not matching
-      if (password !== password_confirmation) {
-        throw new Error("Passwords do not match!");
-      }
+      // run validators related to user registration
+      registerValidators(name, email, password, password_confirmation);
 
       // hash password before storing it
       const saltRounds = 10;
