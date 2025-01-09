@@ -75,8 +75,8 @@ export const taskModel = {
         .where(eq(tasks.id, taskId))
         .returning();
 
+      // throw error for deleting a non-existing task
       if (result.length === 0) {
-        // throw error for deleting a non-existing task
         throw new Error(`Task ${taskId} not found`);
       }
 

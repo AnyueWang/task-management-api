@@ -9,6 +9,11 @@ export const userTypeDefs = gql`
     updated_at: String
   }
 
+  type AuthPayload {
+    user: User!
+    token: String!
+  }
+
   type Mutation {
     register(
       name: String!
@@ -16,5 +21,6 @@ export const userTypeDefs = gql`
       password: String!
       password_confirmation: String!
     ): User!
+    login(email: String!, password: String!): AuthPayload!
   }
 `;
