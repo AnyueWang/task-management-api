@@ -2,7 +2,7 @@ import { AuthenticationError } from "apollo-server-express";
 import jwt from "jsonwebtoken";
 import { Request } from "express";
 
-export interface ContextType {
+export interface LoggedUserType {
   user: { id: string; email: string } | null;
 }
 
@@ -14,7 +14,7 @@ if (!SECRET_KEY) {
   );
 }
 
-export const authContext = ({ req }: { req: Request }): ContextType => {
+export const authContext = ({ req }: { req: Request }): LoggedUserType => {
   const token = req.headers["authorization"]?.split(" ")[1]; // extract token from "Bearer xxxx"
 
   if (!token) {
