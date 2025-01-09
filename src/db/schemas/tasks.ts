@@ -10,9 +10,9 @@ import {
 export enum TaskStatusEnum { // export this to use defined status instead of hardcoding each status anywhere else
   Pending = "pending",
   Completed = "completed",
-} 
+}
 
-const taskStatusEnum = pgEnum(
+export const taskStatusEnum = pgEnum(
   "status",
   Object.values(TaskStatusEnum) as [string, ...string[]]
 ); // enum for different status

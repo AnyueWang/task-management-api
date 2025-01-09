@@ -84,10 +84,10 @@ export const taskModel = {
       return result[0];
     } catch (error) {
       if (error instanceof Error) {
-        console.error(error.message); // Safely access message
+        console.error("Error deleting an existing task: ", error); // Safely access message
         throw new Error(error.message);
       } else {
-        console.error("An unknown error occurred"); // Handle unexpected cases
+        console.error("Error deleting an existing task: ", error); // Handle unexpected cases
         throw new Error("Failed to delete task due to an unknown error");
       }
     }

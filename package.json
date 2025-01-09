@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "nodemon -r ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "drizzle:generate": "npx drizzle-kit generate",
-    "drizzle:migrate": "npx drizzle-kit migrate",
+    "drizzle:push": "npx drizzle-kit push",
     "drizzle:seeds": "ts-node src/db/seeds/runSeeders.ts"
   },
   "keywords": [],
