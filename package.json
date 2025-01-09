@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "drizzle:generate": "npx drizzle-kit generate",
     "drizzle:migrate": "npx drizzle-kit migrate",
-    "drizzle:seeds": "ts-node src/db/seeds/tasksSeeder.ts"
+    "drizzle:seeds": "ts-node src/db/seeds/runSeeders.ts"
   },
   "keywords": [],
   "author": "",

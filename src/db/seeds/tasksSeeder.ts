@@ -2,7 +2,7 @@ import { seed } from "drizzle-seed";
 import { db } from "../index";
 import { tasks } from "../schemas/tasks";
 
-async function seedTasks() {
+export async function seedTasks() {
   try {
     await seed(db, { tasks }, { count: 10 }).refine((funcs) => ({
       tasks: {
@@ -19,5 +19,3 @@ async function seedTasks() {
     console.error("Error seeding tasks: ", error);
   }
 }
-
-seedTasks();
