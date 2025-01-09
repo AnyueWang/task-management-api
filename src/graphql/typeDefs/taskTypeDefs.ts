@@ -14,4 +14,8 @@ export const taskTypeDefs = gql`
     getAllTasks: [Task!]!
     getTask(taskId: Int!): Task
   }
+
+  type Mutation {
+    createTask(title: String!, description: String, status: String!): Task!
+  }
 `;

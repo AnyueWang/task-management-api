@@ -7,13 +7,21 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 
-export const TaskStatusEnum = pgEnum("status", ["pending", "completed"]); // enum for different status
+export enum TaskStatusEnum { // export this to use defined status instead of hardcoding each status anywhere else
+  Pending = "pending",
+  Completed = "completed",
+} 
+
+const taskStatusEnum = pgEnum(
+  "status",
+  Object.values(TaskStatusEnum) as [string, ...string[]]
+); // enum for different status
 
 export const tasks = pgTable("tasks", {
   id: serial("id").primaryKey().notNull(),
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
-  status: TaskStatusEnum().default("pending"), // pgEnum().notNull() is not supported so we use this way
+  status: taskStatusEnum().default(TaskStatusEnum.Pending), // pgEnum().notNull() is not supported so we use this way
   created_at: timestamp("created_at").notNull().defaultNow(),
   updated_at: timestamp("updated_at").notNull().defaultNow(),
 });
