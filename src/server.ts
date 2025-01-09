@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import { ApolloServer } from "apollo-server-express";
 import { taskTypeDefs } from "./graphql/typeDefs/taskTypeDefs";
 import { taskResolvers } from "./graphql/resolvers/taskResolver";
+import { userTypeDefs } from "./graphql/typeDefs/userTypeDefs";
+import { userResolvers } from "./graphql/resolvers/userResolver";
 
 export async function startServer() {
   dotenv.config();
@@ -17,8 +19,8 @@ export async function startServer() {
 
   // Apollo server setting
   const server = new ApolloServer({
-    typeDefs: taskTypeDefs,
-    resolvers: taskResolvers,
+    typeDefs: [taskTypeDefs, userTypeDefs],
+    resolvers: [taskResolvers, userResolvers],
   });
 
   await server.start();
