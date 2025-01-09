@@ -28,5 +28,6 @@ export const taskTypeDefs = gql`
       description: String
       status: TaskStatus
     ): Task!
+    deleteTask(taskId: Int!): Task!
   }
 `;

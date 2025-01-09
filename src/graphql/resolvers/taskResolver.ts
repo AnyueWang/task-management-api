@@ -37,5 +37,8 @@ export const taskResolvers = {
     ) => {
       return await taskModel.updateTask(taskId, title, description, status);
     },
+    deleteTask: async (_: any, { taskId }: { taskId: number }) => {
+      return await taskModel.deleteTask(taskId);
+    },
   },
 };

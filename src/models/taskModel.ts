@@ -62,8 +62,34 @@ export const taskModel = {
         .returning();
       return result[0]; // as result is an array, we return the element here
     } catch (error) {
-      console.error("Error creating new task: ", error);
-      throw new Error(`Failed to create new task`);
+      console.error("Error updating an existing task: ", error);
+      throw new Error(`Failed to update task ${taskId}`);
+    }
+  },
+
+  // delete an existing task
+  async deleteTask(taskId: number) {
+    try {
+      const result = await db
+        .delete(tasks)
+        .where(eq(tasks.id, taskId))
+        .returning();
+
+      if (result.length === 0) {
+        // throw error for deleting a non-existing task
+        throw new Error(`Task ${taskId} not found`);
+      }
+
+      console.log(`Task ${taskId} deleted successfully!`);
+      return result[0];
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message); // Safely access message
+        throw new Error(error.message);
+      } else {
+        console.error("An unknown error occurred"); // Handle unexpected cases
+        throw new Error("Failed to delete task due to an unknown error");
+      }
     }
   },
 };
