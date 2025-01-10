@@ -74,12 +74,17 @@ CREATE DATABASE taskdb;
 CREATE DATABASE taskdb_test;
 ```
 
-5. Push database schema changes to database and run seeders:
+5. Push database schema changes to database:
 
 ```
 npm run drizzle:push
-npm run drizzle:seeds
 npm run drizzle:push-test
+```
+
+6. (Optional) Run seeders to generate fake data to database:
+
+```
+npm run drizzle:seeds
 npm run drizzle:seeds-test
 ```
 
