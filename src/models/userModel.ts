@@ -32,17 +32,42 @@ export const userModel = {
 
       // throw error for wrong email address but not explicitly telling users
       if (result.length === 0) {
-        throw new Error("Email or password wrong!");
+        throw new Error("Error finding user email!");
       }
 
       return result[0];
     } catch (error) {
       if (error instanceof Error) {
-        console.error("Error login: ", error);
+        console.error("Error finding user email: ", error);
         throw new Error(error.message);
       } else {
-        console.error("Error login: ", error);
-        throw new Error(`Failed to fetch user with email ${email}`);
+        console.error("Error finding user email: ", error);
+        throw new Error("Credential wrong!");
+      }
+    }
+  },
+
+  // find user by email which should be unique
+  async findById(id: number) {
+    try {
+      const result = await db
+        .select()
+        .from(users)
+        .where(eq(users.id, id));
+
+      // throw error for wrong email address but not explicitly telling users
+      if (result.length === 0) {
+        throw new Error(`User ${id} does not exist!`);
+      }
+
+      return result[0];
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error finding user id: ", error);
+        throw new Error(error.message);
+      } else {
+        console.error("Error finding user id: ", error);
+        throw new Error(`Failed to fetch user with id ${id}`);
       }
     }
   },

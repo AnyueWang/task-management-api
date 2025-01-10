@@ -49,7 +49,7 @@ export const userResolvers = {
         // password validation
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
         if (!isPasswordCorrect) {
-          throw new Error("Email or password wrong!");
+          throw new Error("Password incorrect!");
         }
 
         //generate JWT token

@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { Request } from "express";
 
 export interface LoggedUserType {
-  user: { id: string; email: string } | null;
+  user: { id: number; email: string } | null;
 }
 
 // secret key for JWT token
@@ -23,7 +23,7 @@ export const authContext = ({ req }: { req: Request }): LoggedUserType => {
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY); // verify token with secret key
-    return { user: decoded as { id: string; email: string } }; // type casting for decoded
+    return { user: decoded as { id: number; email: string } }; // type casting for decoded
   } catch (error) {
     throw new AuthenticationError("Invalid or expired token!");
   }

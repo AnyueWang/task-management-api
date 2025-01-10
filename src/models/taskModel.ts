@@ -26,7 +26,12 @@ export const taskModel = {
   },
 
   // create a new task
-  async createTask(title: string, description: string, status: TaskStatusEnum) {
+  async createTask(
+    title: string,
+    description: string,
+    status: TaskStatusEnum,
+    created_by: number
+  ) {
     try {
       const result = await db
         .insert(tasks)
@@ -34,6 +39,7 @@ export const taskModel = {
           title: title,
           description: description,
           status: status,
+          created_by: created_by,
         })
         .returning();
       return result[0]; // as result is an array, we return the element here

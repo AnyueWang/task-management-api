@@ -2,6 +2,7 @@ import { taskModel } from "../../models/taskModel";
 import { TaskStatusEnum } from "../../db/schemas/tasks";
 import { LoggedUserType } from "../contexts/authContext";
 import { AuthenticationError } from "apollo-server-express";
+import { userModel } from "../../models/userModel";
 
 export const taskResolvers = {
   Query: {
@@ -13,7 +14,17 @@ export const taskResolvers = {
         );
       }
 
-      return await taskModel.getAllTasks();
+      const tasks = await taskModel.getAllTasks();
+
+      // populate created_by
+      const tasksWithCreator = await Promise.all(
+        tasks.map(async (task) => {
+          const creator = await userModel.findById(task.created_by);
+          return { ...task, created_by: creator };
+        })
+      );
+
+      return tasksWithCreator;
     },
 
     // fetch a task with a specific ID
@@ -28,7 +39,9 @@ export const taskResolvers = {
         );
       }
 
-      return await taskModel.getTask(taskId);
+      const task = await taskModel.getTask(taskId);
+      const creator = await userModel.findById(task.created_by);
+      return { ...task, created_by: creator };
     },
   },
   Mutation: {
@@ -48,7 +61,14 @@ export const taskResolvers = {
         );
       }
 
-      return await taskModel.createTask(title, description, status);
+      const task = await taskModel.createTask(
+        title,
+        description,
+        status,
+        user.id
+      );
+      const creator = await userModel.findById(task.created_by);
+      return { ...task, created_by: creator };
     },
 
     // update an existing task
@@ -73,7 +93,14 @@ export const taskResolvers = {
         );
       }
 
-      return await taskModel.updateTask(taskId, title, description, status);
+      const task = await taskModel.updateTask(
+        taskId,
+        title,
+        description,
+        status
+      );
+      const creator = await userModel.findById(task.created_by);
+      return { ...task, created_by: creator };
     },
 
     // delete an existing task
@@ -88,7 +115,9 @@ export const taskResolvers = {
         );
       }
 
-      return await taskModel.deleteTask(taskId);
+      const task = await taskModel.deleteTask(taskId);
+      const creator = await userModel.findById(task.created_by);
+      return { ...task, created_by: creator };
     },
   },
 };
