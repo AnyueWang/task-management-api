@@ -2,6 +2,7 @@ import { userModel } from "../../models/userModel";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { registerValidators } from "../validators/userValidators";
+import { handleResolverError } from "../../utils/errorHandlers";
 
 // secret key for JWT token
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
@@ -28,14 +29,18 @@ export const userResolvers = {
         password_confirmation: string;
       }
     ) => {
-      // run validators related to user registration
-      registerValidators(name, email, password, password_confirmation);
+      try {
+        // run validators related to user registration
+        registerValidators(name, email, password, password_confirmation);
 
-      // hash password before storing it
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
+        // hash password before storing it
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-      return await userModel.register(name, email, hashedPassword);
+        return await userModel.register(name, email, hashedPassword);
+      } catch (error) {
+        handleResolverError(`Error in resolver: register`, error);
+      }
     },
 
     // user login
@@ -45,6 +50,10 @@ export const userResolvers = {
     ) => {
       try {
         const user = await userModel.findByEmail(email);
+
+        if (!user) {
+          throw new Error("User not found!");
+        }
 
         // password validation
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
@@ -59,13 +68,7 @@ export const userResolvers = {
 
         return { user, token };
       } catch (error) {
-        if (error instanceof Error) {
-          console.error("Error login: ", error);
-          throw new Error(error.message);
-        } else {
-          console.error("Error login: ", error);
-          throw new Error(`Failed to login`);
-        }
+        handleResolverError(`Error in resolver: login`, error);
       }
     },
   },
