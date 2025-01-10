@@ -93,13 +93,21 @@ export const taskResolvers = {
         );
       }
 
-      const task = await taskModel.updateTask(
+      const task = await taskModel.getTask(taskId);
+
+      if (task.created_by !== user.id) {
+            throw new AuthenticationError(
+              "You are not authorized to update this task"
+            );
+      }
+
+      const updatedTask = await taskModel.updateTask(
         taskId,
         title,
         description,
         status
       );
-      const creator = await userModel.findById(task.created_by);
+      const creator = await userModel.findById(updatedTask.created_by);
       return { ...task, created_by: creator };
     },
 
@@ -115,8 +123,16 @@ export const taskResolvers = {
         );
       }
 
-      const task = await taskModel.deleteTask(taskId);
-      const creator = await userModel.findById(task.created_by);
+      const task = await taskModel.getTask(taskId);
+
+      if (task.created_by !== user.id) {
+        throw new AuthenticationError(
+          "You are not authorized to delete this task"
+        );
+      }
+
+      const deletedTask = await taskModel.deleteTask(taskId);
+      const creator = await userModel.findById(deletedTask.created_by);
       return { ...task, created_by: creator };
     },
   },
