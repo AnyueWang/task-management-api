@@ -201,10 +201,7 @@ describe("Tasks Tests", () => {
     const mutation = `
     mutation DeleteTask($taskId: Int!) {
       deleteTask(taskId: $taskId) {
-        id
-        title
-        description
-        status
+        message
       }
     }
   `;
@@ -220,7 +217,7 @@ describe("Tasks Tests", () => {
 
     // Verify the response status and the task data returned
     expect(response.status).toBe(200);
-    expect(response.body.data.deleteTask.id).toBe(String(variables.taskId));
+    expect(response.body.data.deleteTask.message).toBe(`Task with ID ${variables.taskId} has been successfully deleted.`);
 
     // Optionally: Verify the task no longer exists
     const fetchQuery = `
