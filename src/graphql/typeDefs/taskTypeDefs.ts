@@ -6,6 +6,10 @@ export const taskTypeDefs = gql`
     completed
   }
 
+  type SuccessMessage {
+    message: String!
+  }
+
   type User {
     id: ID!
     name: String!
@@ -37,6 +41,6 @@ export const taskTypeDefs = gql`
       description: String
       status: TaskStatus
     ): Task!
-    deleteTask(taskId: Int!): Task!
+    deleteTask(taskId: Int!): SuccessMessage!
   }
 `;

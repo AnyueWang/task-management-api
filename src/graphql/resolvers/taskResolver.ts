@@ -96,9 +96,9 @@ export const taskResolvers = {
       const task = await taskModel.getTask(taskId);
 
       if (task.created_by !== user.id) {
-            throw new AuthenticationError(
-              "You are not authorized to update this task"
-            );
+        throw new AuthenticationError(
+          "You are not authorized to update this task"
+        );
       }
 
       const updatedTask = await taskModel.updateTask(
@@ -117,23 +117,34 @@ export const taskResolvers = {
       { taskId }: { taskId: number },
       { user }: LoggedUserType
     ) => {
-      if (!user) {
-        throw new AuthenticationError(
-          "You must be logged in to delete this task"
-        );
+      try {
+        if (!user) {
+          throw new AuthenticationError(
+            "You must be logged in to delete this task"
+          );
+        }
+
+        const task = await taskModel.getTask(taskId);
+
+        if (task.created_by !== user.id) {
+          throw new AuthenticationError(
+            "You are not authorized to delete this task"
+          );
+        }
+
+        await taskModel.deleteTask(taskId);
+        return {
+          message: `Task with ID ${taskId} has been successfully deleted.`,
+        };
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error("Error deleting: ", error);
+          throw new Error(error.message);
+        } else {
+          console.error("Error deleting: ", error);
+          throw new Error(`Failed to delete the task`);
+        }
       }
-
-      const task = await taskModel.getTask(taskId);
-
-      if (task.created_by !== user.id) {
-        throw new AuthenticationError(
-          "You are not authorized to delete this task"
-        );
-      }
-
-      const deletedTask = await taskModel.deleteTask(taskId);
-      const creator = await userModel.findById(deletedTask.created_by);
-      return { ...task, created_by: creator };
     },
   },
 };
